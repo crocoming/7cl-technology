@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7CoolLook - 香港專業IT網絡工程 | 墨韻科技</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --bg: #1a1a2e;
+            --bg-light: #16213e;
+            --ink-dark: #0f0f23;
+            --ink-mid: #2d2d44;
+            --ink-light: #4a4a6a;
+            --accent: #0D8A6F;
+            --accent-light: #14b386;
+            --gold: #c9a227;
+            --text: #f5f5f5;
+            --text-muted: #a0a0b0;
+        }
+        
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+        
+        /* 水墨背景效果 */
+        .ink-background {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(45, 45, 70, 0.4) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(13, 138, 111, 0.1) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 50%, rgba(201, 162, 39, 0.05) 0%, transparent 60%),
+                linear-gradient(180deg, var(--bg) 0%, var(--ink-dark) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        /* 水墨山形 */
+        .mountains {
+            position: fixed;
+            bottom: 0; left: 0; width: 100%; height: 40%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%230f0f23' fill-opacity='0.8' d='M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,250.7C960,235,1056,181,1152,165.3C1248,149,1344,171,1392,181.3L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") no-repeat bottom;
+            background-size: cover;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.6;
+        }
+        
+        /* 水墨筆觸裝飾 */
+        .ink-brush {
+            position: absolute;
+            width: 300px; height: 150px;
+            background: radial-gradient(ellipse, rgba(255,255,255,0.03) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(20px);
+        }
+        
+        .ink-brush-1 { top: 10%; right: 5%; transform: rotate(-30deg); }
+        .ink-brush-2 { top: 40%; left: -5%; transform: rotate(20deg); }
+        .ink-brush-3 { bottom: 30%; right: 10%; transform: rotate(45deg); }
+        
+        /* 飄動的墨點 */
+        .ink-particle {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(13, 138, 111, 0.3) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        @keyframes float-ink {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.3; }
+            50% { transform: translateY(-30px) scale(1.1); opacity: 0.5; }
+        }
+        
+        /* Header */
+        header {
+            position: fixed;
+            width: 100%;
+            background: linear-gradient(180deg, rgba(26,26,46,0.95) 0%, rgba(26,26,46,0.8) 100%);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(13, 138, 111, 0.2);
+            z-index: 1000;
+        }
+        
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 50px;
+            width: auto;
+            filter: drop-shadow(0 0 10px rgba(13, 138, 111, 0.3));
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px; left: 0;
+            width: 0; height: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--gold));
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--text);
+        }
+        
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            border: none;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(13, 138, 111, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(13, 138, 111, 0.4);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--gold);
+            border: 2px solid var(--gold);
+        }
+        
+        .btn-outline:hover {
+            background: var(--gold);
+            color: var(--bg);
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(13, 138, 111, 0.1);
+            border: 1px solid rgba(13, 138, 111, 0.3);
+            border-radius: 50px;
+            color: var(--accent-light);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .hero h1 span {
+            color: var(--accent-light);
+            position: relative;
+        }
+        
+        .hero h1 span::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; left: 0;
+            width: 100%; height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--gold));
+            border-radius: 2px;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .hero-desc {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+        
+        /* 分隔線 - 水墨風 */
+        .ink-divider {
+            width: 100px; height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent), var(--gold), transparent);
+            margin: 2rem auto;
+            border-radius: 2px;
+        }
+        
+        /* Services Section */
+        .services {
+            padding: 6rem 2rem;
+            position: relative;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .section-title span {
+            color: var(--accent-light);
+        }
+        
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .service-card {
+            background: linear-gradient(135deg, rgba(45, 45, 70, 0.5) 0%, rgba(22, 33, 62, 0.5) 100%);
+            border: 1px solid rgba(13, 138, 111, 0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--gold));
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(13, 138, 111, 0.4);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .service-icon {
+            width: 70px; height: 70px;
+            background: linear-gradient(135deg, rgba(13, 138, 111, 0.2) 0%, rgba(201, 162, 39, 0.1) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            border: 2px solid rgba(13, 138, 111, 0.3);
+        }
+        
+        .service-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .service-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, transparent 0%, rgba(15, 15, 35, 0.5) 50%, transparent 100%);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .feature-item {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .feature-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
+            opacity: 0.5;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .feature-item h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 1rem 0;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .feature-item p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        /* Contact Section */
+        .contact {
+            padding: 6rem 2rem;
+            position: relative;
+        }
+        
+        .contact-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .contact-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .contact-card {
+            background: linear-gradient(135deg, rgba(45, 45, 70, 0.3) 0%, rgba(22, 33, 62, 0.3) 100%);
+            border: 1px solid rgba(13, 138, 111, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        
+        .contact-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .contact-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .contact-cta {
+            background: linear-gradient(135deg, rgba(13, 138, 111, 0.1) 0%, rgba(201, 162, 39, 0.05) 100%);
+            border: 2px solid rgba(13, 138, 111, 0.3);
+            border-radius: 30px;
+            padding: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .contact-cta h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        .contact-cta p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        
+        .qr-code {
+            background: white;
+            padding: 1rem;
+            border-radius: 15px;
+            display: inline-block;
+            margin: 1rem 0;
+        }
+        
+        .qr-code img {
+            width: 150px; height: 150px;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--ink-dark);
+            border-top: 1px solid rgba(13, 138, 111, 0.1);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-light);
+            margin-bottom: 1rem;
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .contact-cards { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.5rem; }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .services-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2rem; }
+            .hero-buttons { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="ink-background"></div>
+    <div class="mountains"></div>
+    <div class="ink-brush ink-brush-1"></div>
+    <div class="ink-brush ink-brush-2"></div>
+    <div class="ink-brush ink-brush-3"></div>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="#home">
+                    <img src="logo-option-1-7cl.svg" alt="7CoolLook">
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">首頁</a></li>
+                <li><a href="#services">服務</a></li>
+                <li><a href="#features">優勢</a></li>
+                <li><a href="#contact">聯絡</a></li>
+            </ul>
+            <a href="https://wa.me/85267767607" class="btn btn-primary">💬 WhatsApp</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <div class="hero-badge">墨韻科技 · 匠心服務</div>
+                
+                <h1>香港專業<br><span>IT網絡工程</span></h1>
+                
+                <p class="hero-subtitle">為您的店舖或辦公室提供一站式開業解決方案</p>
+                
+                <p class="hero-desc">網絡佈線 · CCTV監控 · WiFi覆蓋 · 音響系統 · 廣告機 · 電話系統</p>
+                
+                <div class="ink-divider"></div>
+                
+                <div class="hero-buttons">
+                    <a href="https://wa.me/85267767607" class="btn btn-primary">💬 WhatsApp 免費報價</a>
+                    <a href="#services" class="btn btn-outline">探索服務</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="services">
+            <div class="section-header">
+                <h2 class="section-title">我們的<span>服務</span></h2>
+                <p class="section-subtitle">為店舖及辦公室提供全方位IT解決方案</p>
+                <div class="ink-divider"></div>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🌐</div>
+                    <h3>網絡佈線工程</h3>
+                    <p>專業Cat6/Cat6A佈線，網絡架構設計，機櫃整理，確保您的網絡穩定高速</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">📹</div>
+                    <h3>CCTV監控系統</h3>
+                    <p>高清監控安裝，遠程查看，移動偵測，全天候保護您的店舖安全</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">📶</div>
+                    <h3>WiFi覆蓋方案</h3>
+                    <p>專業WiFi規劃與安裝，確保店內每個角落都有穩定信號</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">🎵</div>
+                    <h3>音響視聽系統</h3>
+                    <p>店內背景音樂、會議室音響、投影系統，提升店舖氛圍</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">☎️</div>
+                    <h3>PABX電話系統</h3>
+                    <p>商業電話系統安裝，分機設置，語音留言，專業客服熱線</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">📺</div>
+                    <h3>數碼廣告牌</h3>
+                    <p>智能廣告機安裝，遠程內容管理，動態廣告展示，提升店舖形象</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <div class="section-header">
+                <h2 class="section-title">為何選擇<span>我們</span></h2>
+                <div class="ink-divider"></div>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-number">10+</div>
+                    <h3>年行業經驗</h3>
+                    <p>深耕IT工程領域</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-number">500+</div>
+                    <h3>完成項目</h3>
+                    <p>服務眾多店舖辦公室</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-number">98%</div>
+                    <h3>客戶滿意度</h3>
+                    <p>用心服務每位客戶</p>
+                </div>
+                
+                <div class="feature-item">
+                    <div class="feature-number">⚡</div>
+                    <h3>快速響應</h3>
+                    <p>24小時內上門視察</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <div class="section-header">
+                <h2 class="section-title">立即<span>聯絡</span></h2>
+                <p class="section-subtitle">免費上門報價，專業方案建議</p>
+                <div class="ink-divider"></div>
+            </div>
+            
+            <div class="contact-content">
+                <div class="contact-cards">
+                    <div class="contact-card">
+                        <div class="icon">📱</div>
+                        <h4>WhatsApp</h4>
+                        <p>+852 6776 7607</p>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="icon">📍</div>
+                        <h4>服務地區</h4>
+                        <p>全香港十八區</p>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <div class="icon">🕐</div>
+                        <h4>服務時間</h4>
+                        <p>彈性配合施工</p>
+                    </div>
+                </div>
+                
+                <div class="contact-cta">
+                    <h3>WhatsApp 即時查詢</h3>
+                    <p>掃描 QR Code 或點擊按鈕直接對話</p>
+                    
+                    <div class="qr-code">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://wa.me/85267767607" alt="WhatsApp QR">
+                    </div>
+                    
+                    <br>
+                    
+                    <a href="https://wa.me/85267767607" class="btn btn-primary" style="font-size: 1.1rem; padding: 1rem 2rem;">
+                        💬 立即 WhatsApp 查詢
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">7CoolLook Technology Solutions</div>
+            <p>香港專業IT工程服務 · 墨韻科技 匠心品質</p>
+            <p style="margin-top: 1rem; opacity: 0.6;">&copy; 2024 7CoolLook. 版權所有.</p>
+        </div>
+    </footer>
+</body>
+</html>

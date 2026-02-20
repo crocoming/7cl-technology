@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" width="400" height="200">
+  <rect width="400" height="200" fill="#2A2D3A"/>
+  <text x="20" y="160" font-family="Arial Black, sans-serif" font-size="140" font-weight="900" fill="#E8E4DC">7CL</text>
+  <g transform="translate(165, 75) scale(0.6)">
+    <path d="M10,10 L90,50 L10,90 Z" fill="none" stroke="#0D8A6F" stroke-width="10"/>
+    <path d="M30,30 L70,50 L30,70 Z" fill="none" stroke="#0D8A6F" stroke-width="10"/>
+  </g>
+</svg>

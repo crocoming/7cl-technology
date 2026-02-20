@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7CoolLook - 香港IT網絡工程</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --bg: #0a0a0f;
+            --surface: #12121a;
+            --surface-light: #1a1a25;
+            --accent: #00d4ff;
+            --accent-glow: rgba(0, 212, 255, 0.3);
+            --text: #ffffff;
+            --text-muted: #8888a0;
+        }
+        
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        /* Grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        /* Header */
+        header {
+            position: fixed;
+            width: 100%;
+            background: rgba(10, 10, 15, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--surface-light);
+            z-index: 1000;
+        }
+        
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent) 0%, #0080ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+            text-shadow: 0 0 20px var(--accent-glow);
+        }
+        
+        .cta-btn {
+            background: linear-gradient(135deg, var(--accent) 0%, #0080ff 100%);
+            color: var(--bg);
+            padding: 0.8rem 1.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px var(--accent-glow);
+        }
+        
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+        
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+        
+        .hero-content h1 span {
+            color: var(--accent);
+            text-shadow: 0 0 40px var(--accent-glow);
+        }
+        
+        .hero-content p {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        .btn-glow {
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-glow:hover {
+            background: var(--accent);
+            color: var(--bg);
+            box-shadow: 0 0 40px var(--accent-glow);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent) 0%, #0080ff 100%);
+            color: var(--bg);
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+        }
+        
+        /* Services */
+        .services {
+            padding: 6rem 2rem;
+            background: var(--surface);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .section-header h2 span {
+            color: var(--accent);
+        }
+        
+        .section-header p {
+            color: var(--text-muted);
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        
+        .service-card {
+            background: var(--surface-light);
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.2);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+        
+        .service-card:hover::before {
+            opacity: 1;
+        }
+        
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .service-card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .service-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+        
+        /* Features */
+        .features {
+            padding: 6rem 2rem;
+        }
+        
+        .features-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+        
+        .feature {
+            padding: 2rem;
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        
+        /* Contact */
+        .contact {
+            padding: 6rem 2rem;
+            background: var(--surface);
+            text-align: center;
+        }
+        
+        .contact h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .contact h2 span {
+            color: var(--accent);
+        }
+        
+        .contact > p {
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+        }
+        
+        .contact-grid {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        
+        .contact-item {
+            background: var(--surface-light);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .contact-item .icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-item strong {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .contact-item p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        .wa-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #25d366;
+            color: white;
+            padding: 1.2rem 2.5rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-top: 3rem;
+            transition: transform 0.3s;
+        }
+        
+        .wa-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: var(--bg);
+            color: var(--text-muted);
+            border-top: 1px solid var(--surface-light);
+        }
+        
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            .services-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .contact-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">7CoolLook</div>
+            <ul class="nav-links">
+                <li><a href="#services">服務</a></li>
+                <li><a href="#features">優勢</a></li>
+                <li><a href="#contact">聯絡</a></li>
+            </ul>
+            <a href="https://wa.me/85267767607" class="cta-btn">立即查詢</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>香港專業<br><span>IT工程服務</span></h1>
+            <p>網絡佈線 • CCTV監控 • WiFi覆蓋 • 音響系統<br>10年經驗，為您的業務提供可靠技術支援</p>
+            <div class="hero-buttons">
+                <a href="https://wa.me/85267767607" class="btn-primary">WhatsApp 查詢</a>
+                <a href="#services" class="btn-glow">了解服務</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>我們的<span>服務</span></h2>
+                <p>一站式店舖及辦公室開業解決方案</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🌐</div>
+                    <h3>網絡佈線工程</h3>
+                    <p>結構化佈線、機房建設、網絡測試認證。Cat6/Cat6A專業施工，確保穩定高速。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">📹</div>
+                    <h3>CCTV監控系統</h3>
+                    <p>高清IP攝像頭、NVR/DVR設置、手機遠程監控。全天候保護您的資產安全。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">📶</div>
+                    <h3>WiFi覆蓋方案</h3>
+                    <p>商業級AP規劃、Mesh網絡、訪客WiFi。無死角覆蓋，穩定連接。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🎵</div>
+                    <h3>音響視聽系統</h3>
+                    <p>背景音樂、會議室音響、投影安裝。提升店舖氛圍，專業音質。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">☎️</div>
+                    <h3>PABX電話系統</h3>
+                    <p>IP-PABX安裝、分機設置、語音留言。專業商業電話解決方案。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🚀</div>
+                    <h3>商業寬頻服務</h3>
+                    <p>光纖寬頻代辦、5G備援、多線路冗餘。確保業務網絡無間斷。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="features-grid">
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h3>快速響應</h3>
+                <p>24小時內上門</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎯</div>
+                <h3>專業可靠</h3>
+                <p>10年行業經驗</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">💎</div>
+                <h3>品質保證</h3>
+                <p>持牌工程師</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔧</div>
+                <h3>完善售後</h3>
+                <p>7x24技術支援</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <h2>準備好<span>開始</span>了嗎？</h2>
+        <p>免費上門報價，專業方案建議</p>
+        <div class="contact-grid">
+            <div class="contact-item">
+                <div class="icon">📱</div>
+                <strong>WhatsApp</strong>
+                <p>+852 6776 7607</p>
+            </div>
+            <div class="contact-item">
+                <div class="icon">📧</div>
+                <strong>電郵</strong>
+                <p>info@7coollook.com</p>
+            </div>
+            <div class="contact-item">
+                <div class="icon">📍</div>
+                <strong>服務地區</strong>
+                <p>全香港十八區</p>
+            </div>
+        </div>
+        <a href="https://wa.me/85267767607" class="wa-btn">📱 立即WhatsApp查詢</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 7CoolLook. 香港專業IT工程服務.</p>
+    </footer>
+</body>
+</html>

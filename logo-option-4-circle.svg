@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <rect width="200" height="200" fill="#2A2D3A" rx="100"/>
+  <circle cx="100" cy="100" r="85" fill="none" stroke="#0D8A6F" stroke-width="4"/>
+  <text x="100" y="125" font-family="Arial Black, sans-serif" font-size="80" font-weight="900" fill="#E8E4DC" text-anchor="middle">7</text>
+  <g transform="translate(100, 55) scale(0.4)">
+    <path d="M0,-30 L25,15 L-25,15 Z" fill="none" stroke="#0D8A6F" stroke-width="8"/>
+    <path d="M0,-15 L12,8 L-12,8 Z" fill="none" stroke="#0D8A6F" stroke-width="8"/>
+  </g>
+</svg>

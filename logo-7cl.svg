@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200" width="400" height="200">
+  <!-- Dark navy background -->
+  <rect width="400" height="200" fill="#2A2D3A"/>
+  
+  <!-- Big 7CL text in cream/off-white -->
+  <text x="20" y="160" font-family="Arial Black, sans-serif" font-size="140" font-weight="900" fill="#E8E4DC">7CL</text>
+  
+  <!-- Triangle logo in teal, positioned inside the C -->
+  <g transform="translate(165, 75) scale(0.6)">
+    <path d="M0,0 L100,50 L0,100 Z" fill="none" stroke="#0D8A6F" stroke-width="12"/>
+    <path d="M25,25 L75,50 L25,75 Z" fill="none" stroke="#0D8A6F" stroke-width="12"/>
+    <path d="M50,50 L50,50" stroke="#0D8A6F" stroke-width="12"/>
+  </g>
+</svg>
